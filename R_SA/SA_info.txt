@@ -1,0 +1,5 @@
+For prevalence incidence SA, change in incidence_impute_logic file
+
+For LUR data & EPA Air qualiy SA, change in AF_calculations/read_no2_lur file
+
+SA11: https://sscc.wisc.edu/sscc/pubs/MM/MM_DiagInfer.html#:~:text=Mixed%20models%20add%20at%20least,random%20variable%20groups%2C%20are%20correlated.
