@@ -1,0 +1,13 @@
+Method,Proxy to TRAP,,EV sales,Non EV sales
+1,no2,intercept,-0.032,0.0043
+1,no2,interval,"(-0.017, -0.038)","(0.002, 0.0056)"
+1,no2,std error,0.057,0.00068
+1,no2,p value,0.58,1.7e-09
+2,pm2.5,intercept,-0.04,0.0081
+2,pm2.5,interval,"(-0.011, -0.06)","(0.003, 0.012)"
+2,pm2.5,std error,0.054,0.0005
+2,pm2.5,p value,0.45,9.1e-37
+3,pm10,intercept,-0.14,0.0074
+3,pm10,interval,"(-0.089, -0.23)","(0.0038, 0.01)"
+3,pm10,std error,0.12,0.0013
+3,pm10,p value,0.22,1.8e-08

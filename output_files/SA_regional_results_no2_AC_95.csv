@@ -1,0 +1,7 @@
+"","effect","group","term","estimate","std.error","statistic"
+"1","fixed",NA,"(Intercept)",3638.58966684304,782.516770900533,4.64985518796701
+"2","fixed",NA,"ev_sales",0.115832876137118,0.0144444817609998,8.01917840000795
+"3","fixed",NA,"year_fixed",-297.917783646754,50.2232751475049,-5.93186690377667
+"4","ran_pars","state_code:EPA_Region","sd__(Intercept)",3686.20185933737,NA,NA
+"5","ran_pars","EPA_Region","sd__(Intercept)",1402.50874740426,NA,NA
+"6","ran_pars","Residual","sd__Observation",1675.62793936594,NA,NA
