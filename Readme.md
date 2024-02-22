@@ -20,9 +20,12 @@ Describes the final model. This file calls for an R file, where the model is def
 
 # Files to reproduce the images
 Figure 1: ev_sales_evadoption_evdaption_data_plot_2011_2022.ipynb
-Figure 2: figure_3_v2_epa_ambient.ipynb
-Figure 3: plotBasemap_v3_pollution.ipynb
-Figure 4: final_figure_v4.ipynb
+Figure 2: Flowchart created through Microsoft Visio
+Figure 3: figure_3_v2_epa_ambient.ipynb
+Figure S3: plotBasemap_v3_pollution.ipynb
+
+# Data
+Supplementary Tables S1-S13
 
 
 
