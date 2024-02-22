@@ -20,6 +20,7 @@ class ReadCountyCensus:
         epa_region = epa_region.drop_duplicates(['State Code'], keep='first')
         return epa_region
 
+
     def get_children_pop(self, df):
         df['population'] = df['UNDER5_TOT'] + df['AGE513_TOT'] + df['AGE1417_TOT']
         return df
@@ -54,15 +55,16 @@ class ReadCountyCensus:
             sc_file_id = "0{}".format(state_code) if len(str(state_code)) == 1 else state_code
             fname = "{}/{}".format(self.path, self.fname.format(sc_file_id))
             if os.path.exists(fname):
-                print(fname)
+                #print(fname)
                 tdf = pd.read_csv(fname, engine='python',encoding='latin1')
                 tdf['state_code'] = state_code
                 tdf['state_name'] = state_name
                 tdf = self.cal_cols(tdf)
-                df = df.append(tdf)
+                df = df._append(tdf)
         # print(df[(df['state_code']==6) & (df['year'] == 2019)]['population'].sum())
         return df
 
 if __name__ == "__main__":
     obj = ReadCountyCensus()
+    print(obj.add_density())
     print(obj.get_df())

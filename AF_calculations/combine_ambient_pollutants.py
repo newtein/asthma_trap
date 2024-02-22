@@ -14,9 +14,9 @@ class CombineAmbientPollutants:
         for year in range(self.syear, self.eyear+1):
             tdf = ReadData(self.measurement_type.upper(), year=str(year), county_level=True, measurement_type=self.measurement_type).get_pandas_obj()
             tdf['Year'] = year
-            print(tdf.columns)
-            print(year, tdf['State Code'].unique())
-            df = df.append(tdf)
+            #print(tdf.columns)
+            #print(year, tdf['State Code'].unique())
+            df = df._append(tdf)
         df = df.sort_values(by='Year')
         df['pollutant'] = self.measurement_type
         return df

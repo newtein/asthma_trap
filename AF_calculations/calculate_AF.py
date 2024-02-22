@@ -2,6 +2,7 @@ from AF_calculations.merge_no2_exposure_with_population import MergeExAndPop
 import pandas as pd
 import numpy as np
 from constants import *
+from get_population_by_state import GetAgeSex
 
 
 class calculateAF:
@@ -9,6 +10,12 @@ class calculateAF:
         self.pr_ir_df = pr_ir_df
         self.measurement_type = measurement_type
         self.fw = "output_files/PR_IR_AF_{}_{}_{}.csv".format(years[0], years[-1], self.measurement_type)
+
+    def add_surface_area(self, pop_df):
+        obj = GetAgeSex('2017')
+        surface_df = obj.get_surface_area_with_state_code()
+        surface_df = pop_df.merge(surface_df, left_on='state_code', right_on='State Code')
+        return surface_df
 
     def get_AF(self, RR, RR_unit, exposure_level):
         power = (np.log(RR) / RR_unit) * exposure_level
@@ -68,7 +75,8 @@ class calculateAF:
         return AF
 
     def cal_statewise_AF(self, df):
-        columns = ['state_code', 'population', 'PR', 'at_risk','incidence_cases', 'AC', 'IR', 'AC_5', 'AC_95', 'year']
+        columns = ['state_code', 'population', 'PR', 'at_risk','incidence_cases', 'AC', 'IR', 'AC_5', 'AC_95', 'year',
+                   'surface_area']
         agg_dict = {'population': 'sum',
                     'PR': 'first',
                     'at_risk': 'sum',
@@ -76,17 +84,20 @@ class calculateAF:
                     'AC': 'sum',
                     'AC_5': 'sum',
                     'AC_95': 'sum',
-                    'IR': 'first'
+                    'IR': 'first',
+                    'surface_area': 'first'
         }
         sdf = df[columns].groupby(['state_code', 'year']).agg(agg_dict).reset_index()
         sdf['SAF'] = sdf['AC']/sdf['incidence_cases']
         sdf['SAF_5'] = sdf['AC_5']/sdf['incidence_cases']
         sdf['SAF_95'] = sdf['AC_95']/sdf['incidence_cases']
+        sdf['density'] = sdf['population']/sdf['surface_area']
         return sdf
 
     def get_df(self):
         pop_df = MergeExAndPop(measurement_type=self.measurement_type).get_df()
         pop_df['state_code'] = pop_df['state_code'].astype(float)
+        pop_df = self.add_surface_area(pop_df)
         df = pop_df.merge(self.pr_ir_df[['_STATE', 'PR', 'IR', 'year']], left_on=['state_code', 'year'], right_on=['_STATE', 'year'], how='left')
 
         df['at_risk'] = df['population'] * (1-df['PR'])
@@ -100,7 +111,7 @@ class calculateAF:
         df['AC_95'] = df['incidence_cases'] * df['AF_95']
         # print(df['state_code'].unique().shape)
         sdf = self.cal_statewise_AF(df)
-        print(sdf)
+        #print(sdf)
         # print(sdf['state_code'].unique().shape)
         # print(sdf.isna())
         # sdf = sdf.dropna()
