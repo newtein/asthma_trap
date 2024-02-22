@@ -1,5 +1,4 @@
 import pandas as pd
-
 from prepare_data_for_modeling_child_or import ModelingDataChild
 from compile_PR_IR_AF_files import compile
 from config import CONFIG
@@ -44,9 +43,12 @@ def incidence_rate_logic_and_AF(measurement_type):
     return
 
 if __name__ == "__main__":
-
-    # measurement_types = ['no2', 'pm2.5', 'pm10']
-    measurement_types = ['no2']
+    try:
+        SA = sys.argv[1]
+    except:
+        SA = None
+    measurement_types = ['no2', 'pm2.5', 'pm10']
+    # measurement_types = ['pm10']
     years = list(range(2010, 2020))
     # years = [2010]
     national_avg_data = []
@@ -66,11 +68,13 @@ if __name__ == "__main__":
     national_avg_df = pd.DataFrame(columns=['_STATE', 'population', 'PR', 'IR', 'year', 'measurement_type'], data=national_avg_data)
     national_avg_df.to_csv("output_files/national_avg_df.csv", index=False)
     # compile(measurement_types=measurement_types, years=years).execute()
-    # confidence_intervals = ['AC', 'AC_5', 'AC_95']
-    confidence_intervals = ['AC']
+    confidence_intervals = ['AC', 'AC_5', 'AC_95']
+    # confidence_intervals = ['AC']
     for measurement_type in measurement_types:
         obj = MergeWithEVSales(measurement_type)
         for col in confidence_intervals:
             obj.execute(col)
             callR(col, 'model_{}_2013_2019_{}.csv'.format(col, measurement_type),
-                  'results_{}_{}.csv'.format(measurement_type, col), 'results_{}_{}_pvalue.csv'.format(measurement_type, col)).execute()
+                  'results_{}_{}.csv'.format(measurement_type, col),
+                  'results_{}_{}_pvalue.csv'.format(measurement_type, col),
+                  script_path=SA, if_SA=SA).execute()

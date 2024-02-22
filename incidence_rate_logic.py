@@ -16,7 +16,7 @@ class IRLogic:
         for year in self.years:
             tdf = pd.read_csv(self.fname.format(year))
             tdf['year'] = year
-            df = df.append(tdf)
+            df = df._append(tdf)
         return df
 
     def impute_logic_v1(self,x):
@@ -51,8 +51,8 @@ class IRLogic:
         """
         Unquote the line below for sa
         """
-        # if 1:
-        if pd.isna(ir):
+        if 1:
+        # if pd.isna(ir):
             return ir_lookup.get(year)
         else:
             return ir

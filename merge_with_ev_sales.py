@@ -11,6 +11,11 @@ class MergeWithEVSales:
         self.measurement_type = measurement_type
         self.years = years
         ev_df = pd.read_csv("data/ev_sales/ev_data_preprocessed.csv")
+        heavy_duty_df = pd.read_csv(HEAVY_DUTY_DATA)
+        ev_df = ev_df.merge(heavy_duty_df, left_on=['year', 'State'],
+                            right_on=['year', 'state'], how='left')
+        print(ev_df)
+        print(ev_df[pd.isna(ev_df['Truck'])])
         asthma_df = pd.read_csv("output_files/PR_IR_AF_{}_{}_{}.csv".format(
             self.years[0], self.years[-1], self.measurement_type))
         asthma_df = asthma_df[asthma_df['state_code']!=0]
@@ -18,8 +23,8 @@ class MergeWithEVSales:
         self.df = self.df[~self.df['state_code'].isin(EXCLUDE)]
 
     def clean(self, df):
-        df['ev_market_share'] = df['ev_sales'] / df['total']
-        df['nonev_market_share'] = df['nonev_sales'] / df['total']
+        df['ev_market_share'] = (df['ev_sales']*100) / df['total']
+        df['nonev_market_share'] = (df['nonev_sales']*100) / df['total']
         replace_year = {i: j for i, j in zip(range(2011, 2020), range(1, 12))}
         df['year_fixed'] = df['year'].replace(replace_year)
         df = df.rename(columns={'ZEV Mandates': 'ZEV_Mandates', 'EPA Region': 'EPA_Region'})
@@ -35,15 +40,15 @@ class MergeWithEVSales:
         min_trap, max_trap = np.percentile(tdf[col], min_per), np.percentile(tdf[col], max_per)
         min_nonev, max_nonev = np.percentile(tdf['nonev_sales'], min_per), np.percentile(tdf['nonev_sales'], max_per)
         min_ev, max_ev = np.percentile(tdf['ev_sales'], min_per), np.percentile(tdf['ev_sales'], max_per)
-        print(min_trap, max_trap, min_nonev, max_nonev)
+        #print(min_trap, max_trap, min_nonev, max_nonev)
         filtr = (tdf['ev_sales'] < max_ev) & (tdf['ev_sales'] > min_ev) & (tdf['nonev_sales'] < max_nonev) & (
                     tdf['nonev_sales'] > min_nonev) & (tdf[col] < max_trap) & (
                             tdf[col] > min_trap)
         # filtr2 =(tdf['ev_sales'] < max_ev) & (tdf['ev_sales'] > min_ev)  & (tdf[col] < max_trap) & (
         #                     tdf[col] > min_trap)
-        filtr2 = (tdf['ev_sales'] < max_ev) & (tdf['ev_sales'] > min_ev)
+        # filtr2 = (tdf['ev_sales'] < max_ev) & (tdf['ev_sales'] > min_ev)
         # filtr2 = (tdf['ev_sales'] != 0)
-        tdf = tdf[filtr2]
+        # tdf = tdf[filtr2]
         return tdf
 
     def write(self, df, col):

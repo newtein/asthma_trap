@@ -21,7 +21,7 @@ CENSUS_DATA_PATH = US_CENSUS_DIR+"/2010_2019_population.csv"
 ATMOS_BY_STATE = 'data/ATMOS_VOL/atmos_size_by_state.csv'
 # POP_LUR_FILE = 'data/lur_no2/lur_no2_merged_with_pop.csv'
 AMBIENT_AIR_DATA = "data/ambient_no2"
-
+HEAVY_DUTY_DATA = "../cali_zev/data/heavy_duty/heavy_duty_preprocessed_2019.csv"
 # California, Connecticut, Maine, Maryland, Massachusetts, New Jersey, New York, Oregon, Rhode Island, Vermont
 ZEV_STATES = [6, 9, 23, 24,25, 34, 36, 41, 44, 50]
 # CARB = [6, 8, 41, 9, 23, 24,25, 34, 36, 44, 50]

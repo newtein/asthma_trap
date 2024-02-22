@@ -71,7 +71,7 @@ class ModelingDataChild:
         for i, year in zip(range(len(dfs)), years):
             dfs[i] = self.filtering_nan_state(dfs[i])
             dfs[i]['year'] = int(year)
-            mdf = mdf.append(dfs[i])
+            mdf = mdf._append(dfs[i])
 
         mdf = self.merge_for_epa_region(mdf)
         mdf = self.get_primary_risk_wrap(mdf)

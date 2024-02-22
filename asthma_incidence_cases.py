@@ -20,7 +20,7 @@ class AsthmaIncidenceCases:
             except:
                 tdf = pd.DataFrame()
             tdf['year'] = year
-            self.df = self.df.append(tdf)
+            self.df = self.df._append(tdf)
         self.resale_weights('CLLCPWT_F')
 
     def get_cases(self):
